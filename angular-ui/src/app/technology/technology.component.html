@@ -1,0 +1,30 @@
+<h2>Technologies</h2>
+
+<table mat-table [dataSource]="technologies" class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID. </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="number_of_projects">
+    <th mat-header-cell *matHeaderCellDef> Number of Projects </th>
+    <td mat-cell *matCellDef="let element"> {{element.projects.length}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element">
+      <button class="btn btn-primary" title="Edit this technology" (click)="goToEdit(element)">View/ Edit</button>
+      <button class="btn btn-danger" title="Delete this technology" (click)="delete(element)">Delete</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<button class="btn btn-success" title="New technology" (click)="goToNew()">New technology</button>

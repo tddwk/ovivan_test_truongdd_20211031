@@ -1,0 +1,61 @@
+<div *ngIf="developer">
+  <h2>{{developer.first_name}} {{developer.last_name}} Details</h2>
+
+  <div class="container">
+    <div [hidden]="submitted">
+      <form (ngSubmit)="onFormSubmit()" #editDeveloperForm="ngForm">
+        <div class="form-group">
+          <label for="id">ID</label>
+          <input type="text" class="form-control" id="id"
+                 disabled
+                 [(ngModel)]="developer.id" name="id"
+                 #id="ngModel">
+
+          <label for="first_name">First Name</label>
+          <input type="text" class="form-control" id="first_name"
+                 required
+                 [pattern]="namePattern"
+                 maxlength="100"
+                 [(ngModel)]="developer.first_name" name="first_name"
+                 #first_name="ngModel">
+          <div [hidden]="first_name.valid || first_name.pristine"
+               class="alert alert-danger">
+            First Name is invalid
+          </div>
+
+          <label for="last_name">Last Name</label>
+          <input type="text" class="form-control" id="last_name"
+                 required
+                 [pattern]="namePattern"
+                 maxlength="100"
+                 [(ngModel)]="developer.last_name" name="last_name"
+                 #last_name="ngModel">
+          <div [hidden]="last_name.valid || last_name.pristine"
+               class="alert alert-danger">
+            Last Name is invalid
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!editDeveloperForm.form.valid">Save</button>
+      </form>
+    </div>
+
+    <div [hidden]="!submitted">
+      <h2>You submitted the following:</h2>
+      <div class="row">
+        <div class="col-xs-3">First Name</div>
+        <div class="col-xs-9">{{ developer.first_name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Last Name</div>
+        <div class="col-xs-9">{{ developer.last_name }}</div>
+      </div>
+      <br>
+      <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+    </div>
+  </div>
+
+  <br/>
+  <button class="btn btn-danger" title="Delete this developer" (click)="delete(developer)">Delete</button>
+  <button class="btn btn-dark" (click)="goBack()">Back</button>
+</div>

@@ -1,0 +1,2 @@
+FactoryGirl.definition_file_paths = %w(custom_factories_directory)
+FactoryGirl.find_definitions

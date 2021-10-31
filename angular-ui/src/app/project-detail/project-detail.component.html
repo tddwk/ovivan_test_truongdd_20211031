@@ -1,0 +1,108 @@
+<div *ngIf="project">
+  <h2>{{project.name}} Details</h2>
+
+  <div class="container">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()" #editProjectForm="ngForm">
+      <div class="form-group">
+        <label for="id">ID</label>
+        <input type="text" id="id" [(ngModel)]="project.id" class="form-control" name="id" formControlName="id" [disabled]="true" required>
+
+        <label for="name">Name</label>
+        <input type="text" id="name" [(ngModel)]="project.name" class="form-control" placeholder="Project name" name="name" formControlName="name" required>
+
+        <label for="description">Description</label>
+        <input type="text" id="description" [(ngModel)]="project.description"  class="form-control" placeholder="Project description" name="description" formControlName="description" required>
+
+        <label for="start_date">Start Date</label>
+        <input type="date" [disabled]=true id="start_date" [(ngModel)]="project.start_date"  class="form-control" name="start_date" formControlName="start_date">
+
+        <label for="end_date">End Date</label>
+        <input type="date" id="end_date" [(ngModel)]="project.end_date"  class="form-control" name="end_date" formControlName="end_date">
+      </div>
+
+      <button style="margin-top:20px;" type="button" class="btn btn-primary" (click)="addNewTechnology()">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Technology
+      </button>
+
+      <div formArrayName="technologies" style="margin-top:5px; margin-bottom:5px; padding:5px; border: solid 1px;">
+        <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let technology of getTechnologies(); let i=index">
+          <fieldset>
+            <legend>
+              <div>
+                Technology {{i+1}}:
+                <button *ngIf="technology.value['_destroy'] === undefined" style="margin-left:35px;" type="button" class="btn btn-danger" (click)="deleteTechnology(i)">
+                  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove
+                </button>
+              </div>
+            </legend>
+            <div [formGroupName]="i">
+              <div class="form-inline">
+                <div class="form-group">
+                  <label style="margin-right:80px;" class="col-form-label" for="technology_id">ID</label>
+                  <input type="text" class="form-control" id="technology_id" name="id" formControlName="id" style="margin-right:5px;">
+
+                  <label style="margin-right:80px;" class="col-form-label" for="technology_name">Name</label>
+                  <input type="text" class="form-control" id="technology_name" placeholder="Technology name" name="name" formControlName="name" style="margin-right:5px;" required>
+
+                  <div *ngIf="technology.value['_destroy'] !== undefined" class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" value="1" id="technology_destroy" name="_destroy" formControlName="_destroy">
+                    <label class="form-check-label" for="technology_destroy">
+                      Mark as deleted
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <button style="margin-top:20px;" type="button" class="btn btn-primary" (click)="addNewDeveloper()">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Developer
+      </button>
+
+      <div formArrayName="developers" style="margin-top:5px; margin-bottom:5px; padding:5px; border: solid 1px;">
+        <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let developer of getDevelopers(); let i=index">
+          <fieldset>
+            <legend>
+              <div>
+                Developer {{i+1}}:
+                <button *ngIf="developer.value['_destroy'] === undefined" style="margin-left:35px;" type="button" class="btn btn-danger" (click)="deleteDeveloper(i)">
+                  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove
+                </button>
+              </div>
+            </legend>
+            <div [formGroupName]="i">
+              <div class="form-inline">
+                <div class="form-group">
+                  <label style="margin-right:80px;" class="col-form-label" for="developer_id">ID</label>
+                  <input type="text" class="form-control" id="developer_id" name="id" formControlName="id" style="margin-right:5px;">
+
+
+                  <label style="margin-right:80px;" class="col-form-label" for="first_name">First Name</label>
+                  <input type="text" class="form-control" id="first_name"  placeholder="Developer first name" name="first_name" formControlName="first_name" style="margin-right:5px;" required>
+
+                  <label style="margin-right:80px;" class="col-form-label" for="last_name">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" placeholder="Developer last name" name="last_name" formControlName="last_name" style="margin-right:5px;" required>
+
+                  <div *ngIf="developer.value['_destroy'] !== undefined" class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" value="1" id="developer_destroy" name="_destroy" formControlName="_destroy">
+                    <label class="form-check-label" for="developer_destroy">
+                      Mark as deleted
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <button style="margin-top:20px;" type="submit" class="btn btn-success" [disabled]="!editProjectForm.form.valid">Submit</button>
+    </form>
+  </div>
+
+  <br/>
+  <button class="btn btn-danger" title="Delete this project" (click)="delete(project)">Delete</button>
+  <button class="btn btn-dark" (click)="goBack()">Back</button>
+</div>

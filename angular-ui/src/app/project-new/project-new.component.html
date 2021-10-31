@@ -1,0 +1,78 @@
+<h2>Add new project</h2>
+
+<div class="container">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()" #newProjectForm="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" class="form-control" placeholder="Project name" name="name" formControlName="name" required>
+
+      <label for="description">Description</label>
+      <input type="text" id="description" class="form-control" placeholder="Project description" name="description" formControlName="description" required>
+
+      <label for="start_date">Start Date</label>
+      <input type="date" id="start_date" class="form-control" name="start_date" formControlName="start_date" required>
+
+      <label for="end_date">End Date</label>
+      <input type="date" id="end_date" class="form-control" name="end_date" formControlName="end_date">
+    </div>
+
+    <button style="margin-top:20px;" type="button" class="btn btn-primary" (click)="addNewTechnology()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Technology
+    </button>
+
+    <div formArrayName="technologies" style="margin-top:5px; margin-bottom:5px; padding:5px; border: solid 1px;">
+      <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let technology of getTechnologies(); let i=index">
+        <fieldset>
+          <legend>
+            <h4>
+              Technology {{i+1}}:
+              <button style="margin-left:35px;" type="button" class="btn btn-danger" (click)="deleteTechnology(i)">
+                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove
+              </button>
+            </h4>
+          </legend>
+          <div [formGroupName]="i">
+            <div class="form-inline">
+              <div class="form-group">
+                <label style="margin-right:80px;" class="col-form-label" for="technology_name">Name</label>
+                <input type="text" class="form-control" id="technology_name" placeholder="Technology name" name="type" formControlName="name" style="margin-right:5px;" required>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <button style="margin-top:20px;" type="button" class="btn btn-primary" (click)="addNewDeveloper()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Developer
+    </button>
+
+    <div formArrayName="developers" style="margin-top:5px; margin-bottom:5px; padding:5px; border: solid 1px;">
+      <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let developer of getDevelopers(); let i=index">
+        <fieldset>
+          <legend>
+            <h4>
+              Developer {{i+1}}:
+              <button style="margin-left:35px;" type="button" class="btn btn-danger" (click)="deleteDeveloper(i)">
+                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove
+              </button>
+            </h4>
+          </legend>
+          <div [formGroupName]="i">
+            <div class="form-inline">
+              <div class="form-group">
+                <label style="margin-right:80px;" class="col-form-label" for="first_name">Name</label>
+                <input type="text" class="form-control" id="first_name" placeholder="Developer first name" name="type" formControlName="first_name" style="margin-right:5px;" required>
+
+                <label style="margin-right:80px;" class="col-form-label" for="last_name">Name</label>
+                <input type="text" class="form-control" id="last_name" placeholder="Developer last name" name="type" formControlName="last_name" style="margin-right:5px;" required>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="!newProjectForm.form.valid">Submit</button>
+  </form>
+</div>

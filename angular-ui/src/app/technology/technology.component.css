@@ -1,0 +1,76 @@
+h2 {
+  margin: 20px 0;
+}
+
+.heroes {
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+}
+.heroes li {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+}
+
+.heroes li:hover {
+  left: .1em;
+}
+
+.heroes .delete, .add-button {
+  width: 40px;
+  height: 40px;
+  margin: 0.5em;
+}
+
+
+.heroes a {
+  color: #333;
+  text-decoration: none;
+  background-color: #EEE;
+  margin: .5em;
+  padding: .3em;
+  height: auto;
+  border-radius: 4px;
+  display: block;
+  width: auto;
+}
+
+.heroes a:hover {
+  color: #2c3a41;
+  background-color: #e6e6e6;
+}
+
+.heroes a:active {
+  background-color: #525252;
+  color: #fafafa;
+}
+
+.heroes .badge {
+  display: inline-block;
+  font-size: small;
+  color: white;
+  padding: 0.8em 0.7em 0 0.7em;
+  background-color:#405061;
+  line-height: 1em;
+  position: relative;
+  left: -1px;
+  top: -4px;
+  height: 1.8em;
+  min-width: 16px;
+  text-align: right;
+  margin-right: .8em;
+  border-radius: 4px 0 0 4px;
+}
+
+button {
+  margin: 5px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-action, .mat-column-number_of_projects {
+  text-align: center;
+}

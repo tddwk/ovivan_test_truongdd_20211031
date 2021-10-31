@@ -1,0 +1,22 @@
+<h2>Top Technologies</h2>
+<div class="heroes-menu">
+  <a *ngFor="let technology of technologies" routerLink="/technologies/{{technology.id}}">
+    {{technology.name}}
+  </a>
+</div>
+
+<hr/>
+<h2>Top Projects</h2>
+<div class="heroes-menu">
+  <a *ngFor="let project of projects" routerLink="/projects/{{project.id}}">
+    {{project.name}}
+  </a>
+</div>
+
+<hr/>
+<h2>Top Developers</h2>
+<div class="heroes-menu">
+  <a *ngFor="let developer of developers" routerLink="/developers/{{developer.id}}">
+    {{developer.first_name}} {{developer.last_name}}
+  </a>
+</div>
