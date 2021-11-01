@@ -11,12 +11,13 @@ default: &default
 
 development:
   <<: *default
-  adapter: postgresql
-  timeout: 5000
-  encoding: unicode
-  database: ovivan_test
-  username: postgres
-  password: postgres
+  database: db/development.sqlite3
+#  adapter: postgresql
+#  timeout: 5000
+#  encoding: unicode
+#  database: ovivan_test
+#  username: postgres
+#  password: postgres
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
