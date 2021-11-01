@@ -20,6 +20,8 @@ import { ProjectDetailComponent } from './project-detail/project-detail.componen
 import { ProjectNewComponent } from './project-new/project-new.component';
 import {MatTableModule} from "@angular/material/table";
 import { ReactiveFormsModule } from '@angular/forms';
+import { JwPaginationModule } from 'jw-angular-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     MatTabsModule,
     MatTableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JwPaginationModule,
+    NgxPaginationModule
   ],
   providers: [TechnologyService],
   bootstrap: [AppComponent]

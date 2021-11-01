@@ -1,16 +1,22 @@
 class Api::V1::TechnologiesController < ApplicationController
+  before_action :http_authenticate
   before_action :set_technology, only: [:show, :update, :destroy]
 
+  api :GET, '/technologies'
   def index
     @technologies = Technology.all.includes(:projects)
+    response.headers["count"] = @technologies.count
 
-    render json: @technologies
+    paginate json: @technologies
   end
 
+  api :GET, '/technologies/:id'
+  param :id, :number
   def show
     render json: @technology
   end
 
+  api :POST, '/technologies'
   def create
     @technology = Technology.new(technology_params)
 
@@ -21,6 +27,8 @@ class Api::V1::TechnologiesController < ApplicationController
     end
   end
 
+  api :PUT, '/technologies/:id'
+  param :id, :number
   def update
     if @technology.update(technology_params)
       render json: @technology
@@ -29,6 +37,8 @@ class Api::V1::TechnologiesController < ApplicationController
     end
   end
 
+  api :DELETE, '/technologies/:id'
+  param :id, :number
   def destroy
     if @technology.destroy
       render json: @technology

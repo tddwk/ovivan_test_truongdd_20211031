@@ -26,22 +26,31 @@ export class DashboardComponent implements OnInit {
 
   getTechnologies(): void {
     this.technologyService.getTechnologies()
-      .subscribe(technologies => this.technologies = technologies.sort(function(a, b) {
-        return (b.projects?.length || 0) - (a.projects?.length || 0);
-      }).slice(0, 4));
+      .subscribe(res => {
+        this.technologies = res.body;
+        this.technologies = this.technologies.sort(function(a, b) {
+          return (b.projects?.length || 0) - (a.projects?.length || 0);
+        }).slice(0, 4)
+      });
   }
 
   getProjects(): void {
     this.projectService.getProjects()
-      .subscribe(projects => this.projects = projects.sort(function(a, b) {
-        return (b.developers?.length || 0) - (a.developers?.length || 0);
-      }).slice(0, 4));
+      .subscribe(res => {
+        this.projects = res.body;
+        this.projects = this.projects.sort(function(a, b) {
+          return (b.developers?.length || 0) - (a.developers?.length || 0);
+        }).slice(0, 4)
+      });
   }
 
   getDevelopers(): void {
     this.developerService.getDevelopers()
-      .subscribe(developers => this.developers = developers.sort(function(a, b) {
-        return (b.projects?.length || 0) - (a.projects?.length || 0);
-      }).slice(0, 4));
+      .subscribe(res => {
+        this.developers = res.body;
+        this.developers = this.developers.sort(function(a, b) {
+          return (b.projects?.length || 0) - (a.projects?.length || 0);
+        }).slice(0, 4)
+      });
   }
 }

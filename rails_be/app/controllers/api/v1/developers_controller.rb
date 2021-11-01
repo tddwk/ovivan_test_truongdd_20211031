@@ -1,12 +1,17 @@
 class Api::V1::DevelopersController < ApplicationController
+  before_action :http_authenticate
   before_action :set_developer, only: [:show, :update, :destroy]
 
+  api :GET, '/developers'
   def index
     @developers = Developer.all.includes(:projects)
+    response.headers["count"] = @developers.count
 
-    render json: @developers
+    paginate json: @developers
   end
 
+  api :GET, '/developers/:id'
+  param :id, :number
   def show
     render json: @developer
   end
@@ -21,6 +26,8 @@ class Api::V1::DevelopersController < ApplicationController
     end
   end
 
+  api :PUT, '/developers/:id'
+  param :id, :number
   def update
     if @developer.update(developer_params)
       render json: @developer
@@ -29,6 +36,8 @@ class Api::V1::DevelopersController < ApplicationController
     end
   end
 
+  api :DELETE, '/developers/:id'
+  param :id, :number
   def destroy
     if @developer.destroy
       render json: @developer

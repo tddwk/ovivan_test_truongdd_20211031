@@ -4,21 +4,27 @@ import { MessageService } from "./message.service";
 import { Observable, of } from "rxjs";
 import { Project } from "./project/project";
 import { catchError, tap } from "rxjs/operators";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-  private projectsUrl = '/api/v1/projects';
+
+  private baseUrl = environment.apiUrl;
+  private projectsUrl = this.baseUrl + 'api/v1/projects';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    .append('Authorization', 'Basic ' + btoa(environment.username + ':' + environment.password))
   };
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
-  getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.projectsUrl)
+  getProjects(page: number = 1, per_page: number = 10): Observable<any> {
+    let _httpOptions = this.httpOptions;
+    Object.assign(_httpOptions, {observe: 'response'});
+    return this.http.get(`${this.projectsUrl}?page=${page}&per_page=${per_page}`, _httpOptions)
       .pipe(
         tap(_ => this.log('get projects')),
         catchError(this.handleError<Project[]>('[> Fetch All]', []))
@@ -27,7 +33,7 @@ export class ProjectService {
 
   getProject(id: number): Observable<Project> {
     const url = `${this.projectsUrl}/${id}`;
-    return this.http.get<Project>(url).pipe(
+    return this.http.get<Project>(url, this.httpOptions).pipe(
       tap(_ => this.log(`get project: id=${id}`)),
       catchError(this.handleError<Project>('[> Fetch One]'))
     );

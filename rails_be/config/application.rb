@@ -16,6 +16,7 @@ require "rails/test_unit/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+HTTPAuthUsers = YAML::load_file("config/basic_auth.yml")
 
 module RailsBe
   class Application < Rails::Application

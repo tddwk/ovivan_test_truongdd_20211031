@@ -42,10 +42,10 @@ export class ProjectDetailComponent implements OnInit {
   getTechnology(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.projectService.getProject(id)
-      .subscribe(project => {
-        this.project = project;
+      .subscribe(res => {
+        this.project = res;
         // this.bkProject = JSON.parse(JSON.stringify(project)); // backup
-        this.initFormData(project);
+        this.initFormData(res);
       });
   }
 

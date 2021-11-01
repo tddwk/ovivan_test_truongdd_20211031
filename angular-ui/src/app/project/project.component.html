@@ -47,4 +47,11 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<div style="text-align: center">
+  <button [disabled]="currentPage === 1" class="btn btn-warning" title="Prev" (click)="goToPrev()">Prev</button>
+  [{{currentPage}} / {{pageCount}}]
+  <button [disabled]="currentPage === pageCount" class="btn btn-warning" title="Next" (click)="goToNext()">Next</button>
+</div>
+
 <button class="btn btn-success" title="New project" (click)="goToNew()">New Project</button>

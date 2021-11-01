@@ -4,22 +4,27 @@ import {MessageService} from "./message.service";
 import {Observable, of} from "rxjs";
 import {Developer} from "./developer/developer";
 import {catchError, tap} from "rxjs/operators";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeveloperService {
 
-  private developersUrl = '/api/v1/developers';
+  private baseUrl = environment.apiUrl;
+  private developersUrl = this.baseUrl + 'api/v1/developers';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    .append('Authorization', 'Basic ' + btoa(environment.username + ':' + environment.password))
   };
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
-  getDevelopers(): Observable<Developer[]> {
-    return this.http.get<Developer[]>(this.developersUrl)
+  getDevelopers(page: number = 1, per_page: number = 10): Observable<any> {
+    let _httpOptions = this.httpOptions;
+    Object.assign(_httpOptions, {observe: 'response'});
+    return this.http.get(`${this.developersUrl}?page=${page}&per_page=${per_page}`, _httpOptions)
       .pipe(
         tap(_ => this.log('get developers')),
         catchError(this.handleError<Developer[]>('[> Fetch All]', []))
@@ -28,7 +33,7 @@ export class DeveloperService {
 
   getDeveloper(id: number): Observable<Developer> {
     const url = `${this.developersUrl}/${id}`;
-    return this.http.get<Developer>(url).pipe(
+    return this.http.get<Developer>(url, this.httpOptions).pipe(
       tap(_ => this.log(`get developer: id=${id}`)),
       catchError(this.handleError<Developer>('[> Fetch One]'))
     );

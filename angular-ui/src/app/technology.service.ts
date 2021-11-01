@@ -4,22 +4,26 @@ import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TechnologyService {
 
-  private technologiesUrl = '/api/v1/technologies';
+  private baseUrl = environment.apiUrl;
+  private technologiesUrl = this.baseUrl + 'api/v1/technologies';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }).append('Authorization', 'Basic ' + btoa(environment.username + ':' + environment.password))
   };
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
-  getTechnologies(): Observable<Technology[]> {
-    return this.http.get<Technology[]>(this.technologiesUrl)
+  getTechnologies(page: number = 1, per_page: number = 10): Observable<any> {
+    let _httpOptions = this.httpOptions;
+    Object.assign(_httpOptions, {observe: 'response'});
+    return this.http.get(`${this.technologiesUrl}?page=${page}&per_page=${per_page}`, _httpOptions)
       .pipe(
         tap(_ => this.log('get technologies')),
         catchError(this.handleError<Technology[]>('[> Fetch All]', []))
@@ -28,7 +32,7 @@ export class TechnologyService {
 
   getTechnology(id: number): Observable<Technology> {
     const url = `${this.technologiesUrl}/${id}`;
-    return this.http.get<Technology>(url).pipe(
+    return this.http.get<Technology>(url, this.httpOptions).pipe(
       tap(_ => this.log(`get technology: id=${id}`)),
       catchError(this.handleError<Technology>('[> Fetch One]'))
     );

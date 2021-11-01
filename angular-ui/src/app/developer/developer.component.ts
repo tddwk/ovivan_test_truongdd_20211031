@@ -13,6 +13,10 @@ export class DeveloperComponent implements OnInit {
   developers: Developer[] = [];
   selectedDeveloper?: Developer;
 
+  perPage: number = 10;
+  currentPage: number = 1;
+  pageCount: number = 1;
+
   displayedColumns: string[] = ['id', 'first_name', 'last_name', 'number_of_projects', 'action'];
 
   constructor(private developerService: DeveloperService, private messageService: MessageService, private router: Router) { }
@@ -21,8 +25,13 @@ export class DeveloperComponent implements OnInit {
     this.getDevelopers();
   }
 
-  getDevelopers(): void {
-    this.developerService.getDevelopers().subscribe(developers => this.developers = developers);
+  getDevelopers(page: number = 1, per_page: number = 10): void {
+    this.developerService.getDevelopers(page, per_page).subscribe(res => {
+      this.developers = res.body;
+      if (this.pageCount === 0) {
+        this.pageCount = Math.ceil(res.headers.get('count') / this.perPage);
+      }
+    });
   }
 
   goToEdit(developer: Developer): void {
@@ -44,4 +53,19 @@ export class DeveloperComponent implements OnInit {
     }
 
   }
+
+  goToPrev(): void {
+    if (this.currentPage > 1) {
+      this.currentPage -= 1;
+    }
+    this.getDevelopers(this.currentPage);
+  };
+
+  goToNext(): void {
+    if (this.currentPage < this.pageCount) {
+      this.currentPage += 1;
+    }
+    this.getDevelopers(this.currentPage);
+  };
+
 }

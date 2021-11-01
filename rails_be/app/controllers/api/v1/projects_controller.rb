@@ -1,16 +1,22 @@
 class Api::V1::ProjectsController < ApplicationController
+  before_action :http_authenticate
   before_action :set_project, only: [:show, :update, :destroy]
 
+  api :GET, '/projects'
   def index
     @projects = Project.all.includes(:technologies, :developers)
+    response.headers["count"] = @projects.count
 
-    render json: @projects
+    paginate json: @projects
   end
 
+  api :GET, '/projects/:id'
+  param :id, :number
   def show
     render json: @project
   end
 
+  api :POST, '/projects'
   def create
     if project_params[:developers_attributes].blank?
       @project.errors.add(:constraint, "Project must have at least 1 developer.")
@@ -29,6 +35,8 @@ class Api::V1::ProjectsController < ApplicationController
     end
   end
 
+  api :PUT, '/projects/:id'
+  param :id, :number
   def update
     if project_params[:developers_attributes].blank?
       @project.errors.add(:constraint, "Project must have at least 1 developer.")
@@ -45,6 +53,8 @@ class Api::V1::ProjectsController < ApplicationController
     end
   end
 
+  api :DELETE, '/projects/:id'
+  param :id, :number
   def destroy
     if @project.destroy
       render json: @project

@@ -12,9 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2021_10_29_061450) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "developers", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -23,8 +20,8 @@ ActiveRecord::Schema.define(version: 2021_10_29_061450) do
   end
 
   create_table "project_developers", force: :cascade do |t|
-    t.bigint "project_id"
-    t.bigint "developer_id"
+    t.integer "project_id"
+    t.integer "developer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["developer_id"], name: "index_project_developers_on_developer_id"
@@ -32,8 +29,8 @@ ActiveRecord::Schema.define(version: 2021_10_29_061450) do
   end
 
   create_table "project_technologies", force: :cascade do |t|
-    t.bigint "project_id"
-    t.bigint "technology_id"
+    t.integer "project_id"
+    t.integer "technology_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_project_technologies_on_project_id"

@@ -26,9 +26,9 @@ export class DeveloperDetailComponent implements OnInit {
   getDeveloper(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.developerService.getDeveloper(id)
-      .subscribe(developer => {
-        this.developer = developer;
-        this.bkDeveloper = JSON.parse(JSON.stringify(developer)); // backup
+      .subscribe(res => {
+        this.developer = res;
+        this.bkDeveloper = JSON.parse(JSON.stringify(res)); // backup
       });
   }
 

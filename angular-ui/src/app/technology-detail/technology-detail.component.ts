@@ -24,9 +24,9 @@ export class TechnologyDetailComponent implements OnInit {
   getTechnology(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.technologyService.getTechnology(id)
-      .subscribe(technology => {
-        this.technology = technology;
-        this.bkTechnology = JSON.parse(JSON.stringify(technology)); // backup
+      .subscribe(res => {
+        this.technology = res;
+        this.bkTechnology = JSON.parse(JSON.stringify(res)); // backup
       });
   }
 

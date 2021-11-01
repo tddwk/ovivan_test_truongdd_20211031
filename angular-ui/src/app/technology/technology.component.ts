@@ -14,6 +14,10 @@ export class TechnologyComponent implements OnInit {
   technologies: Technology[] = [];
   selectedTechnology?: Technology;
 
+  perPage: number = 10;
+  currentPage: number = 1;
+  pageCount: number = 0;
+
   displayedColumns: string[] = ['id', 'name', 'number_of_projects', 'action'];
 
   constructor(private technologyService: TechnologyService, private messageService: MessageService, private router: Router) { }
@@ -22,8 +26,13 @@ export class TechnologyComponent implements OnInit {
     this.getTechnologies();
   }
 
-  getTechnologies(): void {
-    this.technologyService.getTechnologies().subscribe(technologies => this.technologies = technologies);
+  getTechnologies(page: number = 1, per_page: number = 10): void {
+    this.technologyService.getTechnologies(page, per_page).subscribe(res => {
+      this.technologies = res.body;
+      if (this.pageCount === 0) {
+        this.pageCount = Math.ceil(res.headers.get('count') / this.perPage);
+      }
+    });
   }
 
   goToEdit(technology: Technology): void {
@@ -46,4 +55,18 @@ export class TechnologyComponent implements OnInit {
       });
     }
   }
+
+  goToPrev(): void {
+    if (this.currentPage > 1) {
+      this.currentPage -= 1;
+    }
+    this.getTechnologies(this.currentPage);
+  };
+
+  goToNext(): void {
+    if (this.currentPage < this.pageCount) {
+      this.currentPage += 1;
+    }
+    this.getTechnologies(this.currentPage);
+  };
 }
